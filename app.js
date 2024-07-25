@@ -1,3 +1,5 @@
+
+
 const express = require('express');
 const app = express();
 const http = require('http');
@@ -18,9 +20,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Socket.IO connection handler
 io.on('connection', function(socket) {
-    console.log('Client connected');
+    socket.on('send-location', function(data) {
+        io.emit('recieve-location', { id: socket.id, ...data });
+    });
+
+    // console.log('Client connected');
+
     socket.on('disconnect', function() {
-        console.log('Client disconnected');
+        io.emit('user-disconnected', socket.id);
+        // console.log('Client disconnected');
     });
 });
 
@@ -31,5 +39,5 @@ app.get('/', function(req, res) {
 
 // Start the server on port 3000
 server.listen(3000, () => {
-    console.log('Server running on http://localhost:3000');
+    console.log('Server running on 3000');
 });
