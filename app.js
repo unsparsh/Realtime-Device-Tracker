@@ -37,5 +37,8 @@ app.get('/', function (req, res) {
     res.render('index'); // Make sure there's a file named "index.ejs" in the "views" directory
 });
 
-// Export the app (not the server) for Vercel
-module.exports = app;
+// Start the server on a specified port (e.g., 3000)
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
